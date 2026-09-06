@@ -23,6 +23,11 @@ tauri-plugin-opener = "2"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 reqwest ={ version = "0.13.4", features = ["json", "native-tls", "cookies"] }
+dirs = "7.0.0"
+uuid = "1.26.0"
+tokio = "1.53.1"
+tauri-plugin-log = "2"
+log = "0.4"
 
 
 # Read the optimization guideline for more details: https://tauri.app/concept/size/#cargo-configuration
