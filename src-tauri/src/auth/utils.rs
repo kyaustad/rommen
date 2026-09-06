@@ -7,13 +7,14 @@ pub fn normalize_base_url(input: &str) -> Result<url::Url, String> {
         format!("https://{trimmed}")
     };
 
-    let mut url =
-        url::Url::parse(&with_protocol).map_err(|e| log::error!(format!("Invalid URL: {e}")))?;
+    let mut url = url::Url::parse(&with_protocol).map_err(|e| {
+        log::error!("Invalid URL: {e}");
+        e.to_string()
+    })?;
 
     // Lastly ensure URL ends with trailing slash
-
     if !url.path().ends_with('/') {
-        url.set_path(&format("{}/", url.path().trim_end_matches('/')));
+        url.set_path(&format!("{}/", url.path().trim_end_matches('/')));
     }
 
     Ok(url)

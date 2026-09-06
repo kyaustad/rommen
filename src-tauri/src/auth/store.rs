@@ -19,22 +19,37 @@ impl AuthConfig {
         if !path.exists() {
             return Ok(Self::default());
         }
-        let contents = std::fs::read_to_string(path)
-            .map_err(|e| log::error!(format!("Failed to read auth config: {e}")))?;
-        serde_json::from_str(&contents)
-            .map_err(|e| log::error!(format!("Failed to parse auth config: {e}")))?;
+        let contents = std::fs::read_to_string(path).map_err(|e| {
+            log::error!("Failed to read auth config: {e}");
+            e.to_string()
+        })?;
+        serde_json::from_str(&contents).map_err(|e| {
+            log::error!("Failed to parse auth config: {e}");
+            e.to_string()
+        })
     }
 
     pub fn save(&self, config_dir: &std::path::Path) -> Result<(), String> {
+        std::fs::create_dir_all(config_dir).map_err(|e| {
+            log::error!("Failed to create config directory: {e}");
+            e.to_string()
+        })?;
+
         let path = Self::path(config_dir);
         let tmp = path.with_extension("json.tmp");
-        let contents = serde_json::to_string_pretty(self)
-            .map_err(|e| log::error!(format!("Failed to serialize auth config: {e}")))?;
+        let contents = serde_json::to_string_pretty(self).map_err(|e| {
+            log::error!("Failed to serialize auth config: {e}");
+            e.to_string()
+        })?;
 
-        std::fs::write(&tmp, &contents)
-            .map_err(|e| log::error!(format!("Failed to write auth config: {e}")))?;
-        std::fs::rename(&tmp, &path)
-            .map_err(|e| log::error!(format!("Failed to rename auth config: {e}")))?;
+        std::fs::write(&tmp, &contents).map_err(|e| {
+            log::error!("Failed to write auth config: {e}");
+            e.to_string()
+        })?;
+        std::fs::rename(&tmp, &path).map_err(|e| {
+            log::error!("Failed to rename auth config: {e}");
+            e.to_string()
+        })?;
         Ok(())
     }
 }
