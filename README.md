@@ -5,3 +5,4 @@
 - [ ] - download Rom files locally
 - [ ] - configure per-platform emulator launch options
 - [ ] - launch roms
+- [ ] - saves eventually
