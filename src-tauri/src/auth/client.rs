@@ -95,10 +95,12 @@ pub async fn poll_device_token(
         })?;
 
         if status.is_success() {
-            return serde_json::from_str(&body).map_err(|e| {
-                log::error!("Failed to parse device token polling response json: {}", e);
+            let token: DeviceAuthTokenResponse = serde_json::from_str(&body).map_err(|e| {
+                log::error!("Failed to parse device token response json: {}", e);
                 e.to_string()
             })?;
+            log::info!("Device token received: should be authenticated now");
+            return Ok(token);
         }
 
         if body.contains("access_denied") {
