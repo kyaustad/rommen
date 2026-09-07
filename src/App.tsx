@@ -3,9 +3,9 @@ import { useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { listen } from "@tauri-apps/api/event";
 import "./App.css";
-import { Input } from "./components/ui/input";
-import { Card } from "./components/ui/card";
-import { Button } from "./components/ui/button";
+import { Input } from "./components/shadcn/input";
+import { Card } from "./components/shadcn/card";
+import { Button } from "./components/shadcn/button";
 
 function App() {
   const [serverUrl, setServerUrl] = useState("");
